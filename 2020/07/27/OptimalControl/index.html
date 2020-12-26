@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"donghyunsung-ms.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="This post is to derive popular optimal control framework called Linear Quadratic Regulator(LQR) and other variants. There are lots of method to derive LQR Algorihm. However, we will follow reinforceme">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Optimal Control(Part 1 - LQR)">
+<meta property="og:url" content="https://donghyunsung-ms.github.io/2020/07/27/OptimalControl/index.html">
+<meta property="og:site_name" content="Welcome to Donghyun&#39;s Blog">
+<meta property="og:description" content="This post is to derive popular optimal control framework called Linear Quadratic Regulator(LQR) and other variants. There are lots of method to derive LQR Algorihm. However, we will follow reinforceme">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-07-27T09:18:19.000Z">
+<meta property="article:modified_time" content="2020-12-26T18:53:06.897Z">
+<meta property="article:author" content="Donghyun Sung">
+<meta property="article:tag" content="RL">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://donghyunsung-ms.github.io/2020/07/27/OptimalControl/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Optimal Control(Part 1 - LQR) | Welcome to Donghyun's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171013578-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171013578-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Welcome to Donghyun's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Research & Daily Life</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://donghyunsung-ms.github.io/2020/07/27/OptimalControl/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Donghyun Sung">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Welcome to Donghyun's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Optimal Control(Part 1 - LQR)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-07-27 18:18:19" itemprop="dateCreated datePublished" datetime="2020-07-27T18:18:19+09:00">2020-07-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-27 03:53:06" itemprop="dateModified" datetime="2020-12-27T03:53:06+09:00">2020-12-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Reinforcement-Learning/" itemprop="url" rel="index"><span itemprop="name">Reinforcement Learning</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Reinforcement-Learning/Model-Based/" itemprop="url" rel="index"><span itemprop="name">Model-Based</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Reinforcement-Learning/Model-Based/Intro/" itemprop="url" rel="index"><span itemprop="name">Intro</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Reinforcement-Learning/Model-Based/Intro/Optimal-Contol/" itemprop="url" rel="index"><span itemprop="name">Optimal Contol</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>This post is to derive popular optimal control framework called Linear Quadratic Regulator(LQR) and other variants. There are lots of method to derive LQR Algorihm. However, we will follow reinforcement learning perspective.</p>
+<h3 id="1-Notation"><a href="#1-Notation" class="headerlink" title="1. Notation"></a>1. Notation</h3><ul>
+<li>State at time $t$: $x_t$</li>
+<li>Action(Input) at time $t$: $u_t$</li>
+<li>Policy: $\pi(u_t \vert x_t)$</li>
+<li>Cost to go at time t and state $x<em>t$: $V</em>{t}(x_t)$</li>
+</ul>
+<h3 id="2-Objective"><a href="#2-Objective" class="headerlink" title="2. Objective"></a>2. Objective</h3><p>Optimal control is to find sequential action or policy(stochastic or deterministic) from particular state that minimized objective.</p>
+<script type="math/tex; mode=display">J = \min_{u_{0:T-1}}x_{T}^TQ_fx_T+\sum_{\tau=0}^{T-1}x_{\tau}^TQx_{\tau}+u_{\tau}^TRu_{\tau}</script><script type="math/tex; mode=display">s.t\,\,x_{t+1} = Ax_t+Bu_t</script><h3 id="3-Value-iteration"><a href="#3-Value-iteration" class="headerlink" title="3. Value iteration"></a>3. Value iteration</h3><p>Similar to value iteration in reinforcement learning, we can apply bellman backup to update current value function(Cost to go).</p>
+<p>Let, $V<em>{t}(x_t) = \min</em>{u<em>{t:T-1}} \Big[x</em>{T}^TQ<em>fx_T+\sum</em>{\tau=t}^{T-1}x<em>{\tau}^TQx</em>{\tau}+u<em>{\tau}^TRu</em>{\tau}\Big]$</p>
+<p>Then, $V<em>{t+1}(x</em>{t+1}) = \min<em>{u</em>{t+1:T-1}} \Big[x<em>{T}^TQ_fx_T+\sum</em>{\tau=t+1}^{T-1}x<em>{\tau}^TQx</em>{\tau}+u<em>{\tau}^TRu</em>{\tau}\Big]$</p>
+<p>we can formulate recursive equation.</p>
+<script type="math/tex; mode=display">V_{t}(x_t) =  \min_{u_{t}}\Big[ V_{t+1}(x_{t+1}) + x_{t}^TQx_{t} + u_{t}^TRu_{t}\Big]</script><p>the deterministic policy is now become,</p>
+<script type="math/tex; mode=display">u_t^{＊}=\pi^{＊}(x_t) =  arg\min_{u_{t}} \Big[V_{t+1}(Ax_t+Bu_t) + u_{t}^TRu_{t}\Big]</script><h3 id="4-Explicit-Policy"><a href="#4-Explicit-Policy" class="headerlink" title="4. Explicit Policy"></a>4. Explicit Policy</h3><p>We can also assume the value function(cost to go) is quadratic by exploiting the property of cost function($J$).</p>
+<p>Let, $V_{t}(x_t) = x_t^TP_tx_t+q_t$, where $P_t$ is matrix and $q_t$ is scalar.</p>
+<p>From deterministic policy in section 3, we can substitute cost to go function and get gradient w.r.t $u<em>t$.<br>$F(x_t,u_t) = (Ax_t+Bu_t)^TP</em>{t+1}(Ax<em>t+Bu_t)+q</em>{t+1} + x<em>{t}^TQx</em>{t} + u<em>{t}^TRu</em>{t}$</p>
+<p>$\nabla<em>{u</em>{t}} F(x<em>t,u_t) = 2Ru_t + 2B^TP</em>{t+1}(Ax_t+Bu_t) = 0$</p>
+<script type="math/tex; mode=display">u_t^{＊}=\pi^{＊}(x_t)=-(B^TP_{t+1}B+R)B^TP_{t+1}Ax_t</script><script type="math/tex; mode=display">K_t = -(B^TP_{t+1}B+R)B^TP_{t+1}A</script><p>We can re-write the recursive equation in value iteration by substituting cost to go function with quadratic function.</p>
+<script type="math/tex; mode=display">x_t^TP_{t}x_t+q_t = (Ax_t+Bu_t^{＊})^TP_{t+1}(Ax_t+Bu_t^{＊})+q_{t+1} + x_{t}^T Q x_{t} + {u_t^{＊}}^T R u_t^{＊}</script><script type="math/tex; mode=display">x_t^TP_{t}x_t+q_t = (Ax_t+BK_tx_t)^TP_{t+1}(Ax_t+BK_tx_t)+q_{t+1} + x_{t}^TQx_{t} + (K_tx_t)^TRK_tx_t</script><p>Initial Condition<br>$P_T = Q_f$</p>
+<p>$q_T = 0$</p>
+<p><strong>For t=T-1:0</strong></p>
+<ol>
+<li><p>$P<em>{t}=(A+BK_t)^TP</em>{t+1}(A+BK_t)+K_t^TRK_t+Q$</p>
+<p>where,$\,K<em>t = -(B^TP</em>{t+1}B+R)B^TP_{t+1}A$</p>
+</li>
+<li><p>$q<em>{t}=q</em>{t+1}$</p>
+</li>
+</ol>
+<p>Optimal action(input) at time t: $u_t^{＊}=K_tx_t$</p>
+<p>Cost to go at time t: $V_{t}(x_t) = x_t^TP_tx_t+q_t$</p>
+<h3 id="5-Variants"><a href="#5-Variants" class="headerlink" title="5. Variants"></a>5. Variants</h3><h4 id="Linear-Time-Invariant-System-with-Infinite-horizon-control"><a href="#Linear-Time-Invariant-System-with-Infinite-horizon-control" class="headerlink" title="Linear Time Invariant System with Infinite horizon control."></a>Linear Time Invariant System with Infinite horizon control.</h4><p>Iterating $K<em>t$ matrix to converge or solve Riccati equation.<br> Then, use $u</em>{t} = K_{ss}x_t$ to control each step.</p>
+<h4 id="Linear-dynamics-with-constant-Affine-system"><a href="#Linear-dynamics-with-constant-Affine-system" class="headerlink" title="Linear dynamics with constant(Affine system)"></a>Linear dynamics with constant(Affine system)</h4><p>$x<em>{t+1} = Ax</em>{t}+Bu_{t} + c$</p>
+<p>Let’s make augmented state.<br>$\begin{bmatrix}x<em>{t+1}\\1\end{bmatrix} = \begin{bmatrix}A&amp;c\\O&amp;1\end{bmatrix}\begin{bmatrix}x</em>{t}\\1\end{bmatrix}+\begin{bmatrix}B\\O\end{bmatrix}u_t$</p>
+<p>Then, following same derivation above you will get.<br>$u<em>t = K_tz_t$, where $z_t = \begin{bmatrix}x</em>{t}\\1\end{bmatrix}$</p>
+<h4 id="Linear-dynamics-with-noise-stochastic-dynamics"><a href="#Linear-dynamics-with-noise-stochastic-dynamics" class="headerlink" title="Linear dynamics with noise(stochastic dynamics)"></a>Linear dynamics with noise(stochastic dynamics)</h4><p>$x<em>{t+1} = Ax</em>{t}+Bu_{t} + w_t$, where $E[w_t]=0$ and $E[w_t^Tw_t]=\Sigma_w$</p>
+<p>$P<em>{t}=(A+BK_t)^TP</em>{t+1}(A+BK_t)+K_t^TRK_t+Q$, which is same as deterministic case.</p>
+<p>$q<em>{t} = E[w_t^TP</em>{t+1}w<em>t]+q</em>{t+1} = Tr(WP<em>{t+1}) + q</em>{t+1}$</p>
+<p>Control is also same as deterministic case. $u_t = K_tx_t$</p>
+<h4 id="Linear-Time-Variant-system"><a href="#Linear-Time-Variant-system" class="headerlink" title="Linear Time Variant system"></a>Linear Time Variant system</h4><p>Change $A$ and $B$ to correspond time step matrix(ex. $A_t$ and $B_t$)</p>
+<h4 id="Penalization-for-change-in-control-inputs"><a href="#Penalization-for-change-in-control-inputs" class="headerlink" title="Penalization for change in control inputs"></a>Penalization for change in control inputs</h4><p>From linear system, $x<em>{t+1} = Ax</em>{t}+Bu_{t}$</p>
+<p>$x<em>{t+1} = Ax</em>{t}+Bu<em>{t-1}+Bu</em>{t}-Bu<em>{t-1}$<br>$u</em>{t} =u<em>{t-1} + u</em>{t}-u_{t-1}$</p>
+<script type="math/tex; mode=display">\begin{bmatrix}x_{t+1}\\\\u_t\end{bmatrix} = \begin{bmatrix}A&B\\\\O&I_{u}\end{bmatrix}\begin{bmatrix}x_{t}\\\\u_{t-1}\end{bmatrix} + \begin{bmatrix}B\\\\I_{u}\end{bmatrix}\Delta u</script><h4 id="Trajectory-following-for-non-linear-systems-also-applied-to-non-linear-system-stabilization"><a href="#Trajectory-following-for-non-linear-systems-also-applied-to-non-linear-system-stabilization" class="headerlink" title="Trajectory following for non-linear systems(also applied to non-linear system stabilization)"></a>Trajectory following for non-linear systems(also applied to non-linear system stabilization)</h4><p>Let, non-linear system as $x_{t+1} = f(x_t, u_t)$.</p>
+<p>Using partial differential w.r.t ($x_t^{ref}$, $u_t^{ref}$) and 1st-order approximation</p>
+<script type="math/tex; mode=display">x_{t+1} \simeq f(x_t^{ref}, u_t^{ref}) + \frac{\partial f}{\partial x}(x_t - x_t^{ref}) \frac{\partial f}{\partial u}(u_t - u_t^{ref})</script><p>Subtract next reference state at both side.</p>
+<script type="math/tex; mode=display">x_{t+1} - x_{t+1}^{ref} \simeq f(x_t^{ref}, u_t^{ref}) - x_{t+1}^{ref} + \frac{\partial f}{\partial x}(x_t - x_t^{ref}) \frac{\partial f}{\partial u}(u_t - u_t^{ref})</script><p>We can make approximated linearized affine system with</p>
+<p>Transformed state: $z<em>t = \begin{bmatrix}x</em>{t} - x_{t}^{ref}\\1\end{bmatrix}$</p>
+<p>Transformed input: $v<em>t = u</em>{t} - u_{t}^{ref}$</p>
+<script type="math/tex; mode=display">z_{t+1} = A_tz_t + B_tv_t</script><p>where,</p>
+<script type="math/tex; mode=display">c = f(x_t^{ref}, u_t^{ref}) - x_{t+1}^{ref}</script><script type="math/tex; mode=display">,A_t = \begin{bmatrix} \frac{\partial f}{\partial x} & c\\\\ O&1 \end{bmatrix}</script><script type="math/tex; mode=display">B_t = \begin{bmatrix} \frac{\partial f}{\partial u}\\\\O \end{bmatrix}</script><p>Now, we get control policy(feedback law).</p>
+<script type="math/tex; mode=display">u_t = K_t\begin{bmatrix}x_{t} - x_{t}^{ref}\\\\1\end{bmatrix} + u_{t}^{ref}</script><h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://people.eecs.berkeley.edu/~pabbeel/cs287-fa19/">CS287 Advanced Robotics</a> Lecture 5</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/RL/" rel="tag"># RL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/02/mujoco-py-Note/" rel="prev" title="Mujoco-py Note(continue)">
+      <i class="fa fa-chevron-left"></i> Mujoco-py Note(continue)
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Notation"><span class="nav-number">1.</span> <span class="nav-text">1. Notation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Objective"><span class="nav-number">2.</span> <span class="nav-text">2. Objective</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Value-iteration"><span class="nav-number">3.</span> <span class="nav-text">3. Value iteration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Explicit-Policy"><span class="nav-number">4.</span> <span class="nav-text">4. Explicit Policy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Variants"><span class="nav-number">5.</span> <span class="nav-text">5. Variants</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Linear-Time-Invariant-System-with-Infinite-horizon-control"><span class="nav-number">5.1.</span> <span class="nav-text">Linear Time Invariant System with Infinite horizon control.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Linear-dynamics-with-constant-Affine-system"><span class="nav-number">5.2.</span> <span class="nav-text">Linear dynamics with constant(Affine system)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Linear-dynamics-with-noise-stochastic-dynamics"><span class="nav-number">5.3.</span> <span class="nav-text">Linear dynamics with noise(stochastic dynamics)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Linear-Time-Variant-system"><span class="nav-number">5.4.</span> <span class="nav-text">Linear Time Variant system</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Penalization-for-change-in-control-inputs"><span class="nav-number">5.5.</span> <span class="nav-text">Penalization for change in control inputs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Trajectory-following-for-non-linear-systems-also-applied-to-non-linear-system-stabilization"><span class="nav-number">5.6.</span> <span class="nav-text">Trajectory following for non-linear systems(also applied to non-linear system stabilization)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">6.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Donghyun Sung"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Donghyun Sung</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/DonghyunSung-MS" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;DonghyunSung-MS" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/dh-sung@naver.com" title="E-Mail → dh-sung@naver.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Donghyun Sung</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'a7e410fac468f5b553b9',
+      clientSecret: '9b77cc9a4bfb24c5b1523a1774adfa2f93eb410a',
+      repo        : 'donghyunsung-ms.github.io',
+      owner       : 'DonghyunSung-MS',
+      admin       : ['DonghyunSung-MS'],
+      id          : '3803a807b0defd114ece21d7b1987bc2',
+        language: 'en',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
