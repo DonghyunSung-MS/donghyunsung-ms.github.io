@@ -248,13 +248,13 @@
 <li><strong>In time repersentation</strong><script type="math/tex; mode=display">\eta(\pi) = E_{s_0,a_0,s_1,...}[\sum_{t=0}^{\infty}\gamma^{t}r(s_{t})]</script></li>
 <li><strong>In state representation</strong></li>
 </ul>
-<p>$\eta(\tilde\pi) = E<em>{\tau\sim\tilde\pi}[\sum</em>{t=0}^{\infty}\gamma^{t}r(s<em>{t})]$, $\,\,\eta(\pi) = E</em>{\tau\sim\pi}[\sum<em>{t=0}^{\infty}\gamma^{t}r(s</em>{t})]$</p>
-<p>$\eta(\tilde\pi) = \eta(\pi)-E<em>{\tau\sim\pi}[\sum</em>{t=0}^{\infty}\gamma^{t}r(s<em>{t})] + E</em>{\tau\sim\tilde\pi}[\sum<em>{t=0}^{\infty}\gamma^{t}r(s</em>{t})]$</p>
-<p>$\eta(\tilde\pi) = \eta(\pi)-V<em>{\pi}(s_0) + E</em>{\tau\sim\tilde\pi}[\sum<em>{t=0}^{\infty}\gamma^{t}r(s</em>{t})]$</p>
-<p>$\eta(\tilde\pi) = \eta(\pi) + E<em>{\tau\sim\tilde\pi}[-V</em>{\pi}(s<em>0)+\sum</em>{t=0}^{\infty}\gamma^{t}r(s_{t})]$</p>
-<p>$\eta(\tilde\pi) = \eta(\pi) + E<em>{\tau\sim\tilde\pi}[-V</em>{\pi}(s<em>0)+r(s_0)+\gamma V</em>{\pi}(s<em>1)+\gamma{-V</em>{\pi}(s<em>1)+r(s_1)+\gamma V</em>{\pi}(s_2)}…]$</p>
-<p>$\eta(\tilde\pi) = \eta(\pi) + E<em>{\tau\sim\tilde\pi}[\sum</em>{t=0}^{\infty}\gamma^t A_{\pi}(s_t,a_t)]$</p>
-<p>$\eta(\tilde\pi) = \eta(\pi) + \sum<em>{t=0}^{\infty}\gamma^t\sum_sP(s_t=s;\tilde\pi)\sum_a\tilde\pi(a_t|s_t) A</em>{\pi}(s_t,a_t)$</p>
+<p>$\eta(\tilde\pi) = E_{\tau\sim\tilde\pi}[\sum_{t=0}^{\infty}\gamma^{t}r(s_{t})]$, $\,\,\eta(\pi) = E_{\tau\sim\pi}[\sum_{t=0}^{\infty}\gamma^{t}r(s_{t})]$</p>
+<p>$\eta(\tilde\pi) = \eta(\pi)-E_{\tau\sim\pi}[\sum_{t=0}^{\infty}\gamma^{t}r(s_{t})] + E_{\tau\sim\tilde\pi}[\sum_{t=0}^{\infty}\gamma^{t}r(s_{t})]$</p>
+<p>$\eta(\tilde\pi) = \eta(\pi)-V_{\pi}(s_0) + E_{\tau\sim\tilde\pi}[\sum_{t=0}^{\infty}\gamma^{t}r(s_{t})]$</p>
+<p>$\eta(\tilde\pi) = \eta(\pi) + E_{\tau\sim\tilde\pi}[-V_{\pi}(s_0)+\sum_{t=0}^{\infty}\gamma^{t}r(s_{t})]$</p>
+<p>$\eta(\tilde\pi) = \eta(\pi) + E_{\tau\sim\tilde\pi}[-V_{\pi}(s_0)+r(s_0)+\gamma V_{\pi}(s_1)+\gamma\{-V_{\pi}(s_1)+r(s_1)+\gamma V_{\pi}(s_2)\}…]$</p>
+<p>$\eta(\tilde\pi) = \eta(\pi) + E_{\tau\sim\tilde\pi}[\sum_{t=0}^{\infty}\gamma^t A_{\pi}(s_t,a_t)]$</p>
+<p>$\eta(\tilde\pi) = \eta(\pi) + \sum_{t=0}^{\infty}\gamma^t\sum_sP(s_t=s;\tilde\pi)\sum_a\tilde\pi(a_t|s_t) A_{\pi}(s_t,a_t)$</p>
 <p><strong>Result</strong></p>
 <script type="math/tex; mode=display">\eta(\tilde\pi) = \eta(\pi)+\sum_{s}\rho_{\tilde\pi}(s)\sum_{a}\tilde\pi(a|s)A_{\pi}(s,a)</script><p>It is hard to formulate equation under $\rho_{\tilde\pi}(s)$. In general policy iteration method, policy evaluation is followed by policy improvenment. After improvement, the agent has not experienced or rolled out with new policy so that new discounted unnormalized visitation frequency has not formed yet. The main idea in 2002 and 2015 literature was, instead of using next policy state disturibution(unnormalized), using previous one.</p>
 <script type="math/tex; mode=display">L_{\pi}(\tilde\pi) = \eta(\pi)+\sum_{s}\rho_{\pi}(s)\sum_{a}\tilde\pi(a|s)A_{\pi}(s,a)</script><script type="math/tex; mode=display">\pi'\in arg\max_{\pi'}L_{\pi}(\pi')</script><script type="math/tex; mode=display">\pi_{new}=(1-\alpha){\pi_{old}}+\alpha{\pi'}</script><p>They suggest that it can not gaurantee direct maximizing the advantage function is equal to improvement in policy. This is because the advantage in practice is parameterized, which causes estimation error and approximation error at the same time. Instead, they use conservative policy iteration update so that they could provide explicit lower bounds on the improvement of η.</p>
@@ -262,29 +262,29 @@
 <ul>
 <li><strong>Properties &amp; Condition</strong></li>
 </ul>
-<p>$\eta(\tilde\pi) = \eta(\pi) + E<em>{\tau\sim\tilde\pi}[\sum</em>{t=0}^{\infty}\gamma^t A_{\pi}(s_t,a_t)]$</p>
+<p>$\eta(\tilde\pi) = \eta(\pi) + E_{\tau\sim\tilde\pi}[\sum_{t=0}^{\infty}\gamma^t A_{\pi}(s_t,a_t)]$</p>
 <p>If $\tilde\pi=\pi$</p>
-<p>$E<em>{\tau\sim\pi}[\sum</em>{t=0}^{\infty}\gamma^t A_{\pi}(s_t,a_t)]=0$</p>
-<p>$\sum<em>{s}\rho</em>{\pi}(s)\sum<em>{a}\pi(a|s)A</em>{\pi}(s,a)=0$</p>
-<p>$\sum<em>{a}\pi(a|s)A</em>{\pi}(s,a)=0$  </p>
-<p>$\epsilon<em>{old} = \max_s|E</em>{a\sim\pi’}A<em>{\pi}(s,a)|\geq |E</em>{a\sim\pi’}A_{\pi}(s,a)|$  </p>
+<p>$E_{\tau\sim\pi}[\sum_{t=0}^{\infty}\gamma^t A_{\pi}(s_t,a_t)]=0$</p>
+<p>$\sum_{s}\rho_{\pi}(s)\sum_{a}\pi(a|s)A_{\pi}(s,a)=0$</p>
+<p>$\sum_{a}\pi(a|s)A_{\pi}(s,a)=0$  </p>
+<p>$\epsilon_{old} = \max_s|E_{a\sim\pi’}A_{\pi}(s,a)|\geq |E_{a\sim\pi’}A_{\pi}(s,a)|$  </p>
 <ul>
 <li><strong>Derivation</strong></li>
 </ul>
-<p>$\eta(\pi<em>{new}) = \eta(\pi</em>{old}) + E<em>{\tau\sim\pi</em>{new}}[\sum<em>{t=0}^{\infty}\gamma^t A</em>{\pi}(s<em>t,a_t)]$<br>$\eta(\pi</em>{new}) = \eta(\pi<em>{old}) + \sum</em>{s}\rho<em>{\pi</em>{new}}(s)\sum<em>{a}\pi</em>{new}(a|s)A<em>{\pi</em>{old}}(s,a)$<br>$\eta(\pi<em>{new}) = \eta(\pi</em>{old}) + \sum<em>{s}\rho</em>{\pi<em>{new}}(s)\sum</em>{a}{(1-\alpha)\pi<em>{old}(a|s)+\alpha\pi’(a|s)}A</em>{\pi<em>{old}}(s,a)$<br>$\eta(\pi</em>{new}) = \eta(\pi<em>{old}) + \sum</em>{s}\rho<em>{\pi</em>{new}}(s)\sum<em>{a}{\alpha\pi’(a|s)}A</em>{\pi<em>{old}}(s,a)$<br>$\eta(\pi</em>{new}) = \eta(\pi<em>{old}) + \sum</em>{t=0}^{\infty}\gamma^t\sum<em>sP(s_t=s;\pi</em>{new})\sum<em>{a}{\alpha\pi’(a|s)}A</em>{\pi<em>{old}}(s,a)$<br>$\eta(\pi</em>{new}) = \eta(\pi<em>{old}) + \sum</em>{t=0}^{\infty}\gamma^t\sum<em>s{(1-\alpha)^t P(s_t=s;\pi</em>{old\,only})+(1-(1-\alpha)^t) P(s<em>t=s;\pi</em>{rest})}\sum<em>{a}{\alpha\pi’(a|s)}A</em>{\pi_{old}}(s,a)$<br>Let $r_a$ denotes $1-(1-\alpha)^t$,</p>
-<p>$\eta(\pi<em>{new}) = \eta(\pi</em>{old}) + \sum<em>{t=0}^{\infty}\gamma^t\sum_s{(1-r_a) P(s_t=s;\pi</em>{old\,only})+r<em>a P(s_t=s;\pi</em>{rest})}\sum<em>{a}{\alpha\pi’(a|s)}A</em>{\pi<em>{old}}(s,a)$<br>$\eta(\pi</em>{new}) = L<em>{\pi</em>{old}}(\pi<em>{new}) + \sum</em>{t=0}^{\infty}\gamma^t\sum<em>s{-r_a P(s_t=s;\pi</em>{old\,only})+r<em>a P(s_t=s;\pi</em>{rest})}\sum<em>{a}{\alpha\pi’(a|s)}A</em>{\pi<em>{old}}(s,a)$<br>$\eta(\pi</em>{new}) = L<em>{\pi</em>{old}}(\pi<em>{new}) - \sum</em>{t=0}^{\infty}\gamma^t2r<em>{a}\epsilon</em>{old}$</p>
-<script type="math/tex; mode=display">\eta(\pi_{new}) \geq L_{\pi_{old}}(\pi_{new}) -\frac{2\alpha^2\epsilon_{old}\gamma}{(1-\gamma)^2}</script><p>This inequality condition means that if we maximize $L<em>{\pi</em>{old}}(\pi_{new})$, it gaurantees policy improvements with error term.</p>
+<p>$\eta(\pi_{new}) = \eta(\pi_{old}) + E_{\tau\sim\pi_{new}}[\sum_{t=0}^{\infty}\gamma^t A_{\pi}(s_t,a_t)]$<br>$\eta(\pi_{new}) = \eta(\pi_{old}) + \sum_{s}\rho_{\pi_{new}}(s)\sum_{a}\pi_{new}(a|s)A_{\pi_{old}}(s,a)$<br>$\eta(\pi_{new}) = \eta(\pi_{old}) + \sum_{s}\rho_{\pi_{new}}(s)\sum_{a}\{(1-\alpha)\pi_{old}(a|s)+\alpha\pi’(a|s)\}A_{\pi_{old}}(s,a)$<br>$\eta(\pi_{new}) = \eta(\pi_{old}) + \sum_{s}\rho_{\pi_{new}}(s)\sum_{a}\{\alpha\pi’(a|s)\}A_{\pi_{old}}(s,a)$<br>$\eta(\pi_{new}) = \eta(\pi_{old}) + \sum_{t=0}^{\infty}\gamma^t\sum_sP(s_t=s;\pi_{new})\sum_{a}\{\alpha\pi’(a|s)\}A_{\pi_{old}}(s,a)$<br>$\eta(\pi_{new}) = \eta(\pi_{old}) + \sum_{t=0}^{\infty}\gamma^t\sum_s\{(1-\alpha)^t P(s_t=s;\pi_{old\,only})+(1-(1-\alpha)^t) P(s_t=s;\pi_{rest})\}\sum_{a}\{\alpha\pi’(a|s)\}A_{\pi_{old}}(s,a)$<br>Let $r_a$ denotes $1-(1-\alpha)^t$,</p>
+<p>$\eta(\pi_{new}) = \eta(\pi_{old}) + \sum_{t=0}^{\infty}\gamma^t\sum_s\{(1-r_a) P(s_t=s;\pi_{old\,only})+r_a P(s_t=s;\pi_{rest})\}\sum_{a}\{\alpha\pi’(a|s)\}A_{\pi_{old}}(s,a)$<br>$\eta(\pi_{new}) = L_{\pi_{old}}(\pi_{new}) + \sum_{t=0}^{\infty}\gamma^t\sum_s\{-r_a P(s_t=s;\pi_{old\,only})+r_a P(s_t=s;\pi_{rest})\}\sum_{a}\{\alpha\pi’(a|s)\}A_{\pi_{old}}(s,a)$<br>$\eta(\pi_{new}) = L_{\pi_{old}}(\pi_{new}) - \sum_{t=0}^{\infty}\gamma^t2r_{a}\epsilon_{old}$</p>
+<script type="math/tex; mode=display">\eta(\pi_{new}) \geq L_{\pi_{old}}(\pi_{new}) -\frac{2\alpha^2\epsilon_{old}\gamma}{(1-\gamma)^2}</script><p>This inequality condition means that if we maximize $L_{\pi_{old}}(\pi_{new})$, it gaurantees policy improvements with error term.</p>
 <p>Let’s go with 2015 approach. They changes $\epsilon$ definition and give more generality while having more error term. We denotes $\epsilon$ as $\epsilon_{new}$</p>
-<p>$\epsilon<em>{old} = \max</em>{s}\vert E<em>{a\sim\pi’} A</em>{\pi}(s,a)\vert = \max<em>s\vert\sum_a\pi(a|s)A</em>{\pi}(s,a)-\sum<em>a\pi’(a|s)A</em>{\pi}(s,a)\vert<br>\leq 2*\max<em>{s,a}\vert A</em>{\pi}(s,a) \vert =2\epsilon_{new}$</p>
+<p>$\epsilon_{old} = \max_{s}\vert E_{a\sim\pi’} A_{\pi}(s,a)\vert = \max_s\vert\sum_a\pi(a|s)A_{\pi}(s,a)-\sum_a\pi’(a|s)A_{\pi}(s,a)\vert<br>\leq 2*\max_{s,a}\vert A_{\pi}(s,a) \vert =2\epsilon_{new}$</p>
 <script type="math/tex; mode=display">\eta(\pi_{new}) \geq L_{\pi_{old}}(\pi_{new}) -\frac{4\alpha^2\epsilon_{new}\gamma}{(1-\gamma)^2}</script><script type="math/tex; mode=display">\eta(\pi_{new}) \geq L_{\pi_{old}}(\pi_{new}) -C * D_{KL}^{max}(\pi_{new}||\pi_{old})</script><script type="math/tex; mode=display">where\,\, C\,=\, \frac{4\epsilon_{new}\gamma}{(1-\gamma)^2},\,\,\alpha\,=\,D_{TV}^{max}(\pi_{new}||\pi_{old})</script><h5 id="Toward-Theory-to-Practical-Implementation-form"><a href="#Toward-Theory-to-Practical-Implementation-form" class="headerlink" title="Toward Theory to Practical Implementation form"></a>Toward Theory to Practical Implementation form</h5><ul>
 <li><strong>Change Boundness to Constant</strong><br>In practice, policy($\pi$) is parameteriezed by $\theta$. If we follow theoretical step($C$), it would be small. The literature recommands to choose $\delta$, which changes the optimization problem.<script type="math/tex; mode=display">maximize_{\theta}\:L_{\theta_{old}}(\theta)</script><script type="math/tex; mode=display">subject\:to\:D_{KL}^{max}(\theta||\theta_{old})\leq\delta</script></li>
-<li><strong>Exact method to Heuristic approximation</strong><br>It is impractical to calculate $D<em>{KL}^{max}$ at each iteration. Instead, they choose heuristic approximation($D</em>{KL}^{\rho}=E[D_{KL}]$)<script type="math/tex; mode=display">maximize_{\theta}\:L_{\theta_{old}}(\theta)</script><script type="math/tex; mode=display">subject\:to\:D_{KL}^{\rho}(\theta||\theta_{old})\leq\delta</script></li>
+<li><strong>Exact method to Heuristic approximation</strong><br>It is impractical to calculate $D_{KL}^{max}$ at each iteration. Instead, they choose heuristic approximation($D_{KL}^{\rho}=E[D_{KL}]$)<script type="math/tex; mode=display">maximize_{\theta}\:L_{\theta_{old}}(\theta)</script><script type="math/tex; mode=display">subject\:to\:D_{KL}^{\rho}(\theta||\theta_{old})\leq\delta</script></li>
 <li><strong>Expectation becomes Sampled Sum</strong><br>In this section, sampled sum which we call Monte-Carlo simulation replaces expecation  </li>
 </ul>
-<p>$L<em>{\pi}(\pi</em>{new}) = \eta(\pi<em>{old})+\sum</em>{s}\rho<em>{\pi</em>{old}}(s)\sum<em>{a}\pi</em>{new}(a|s)A<em>{\pi</em>{old}}(s,a)$</p>
-<p>$\sum<em>{s}\rho</em>{\pi}(s)\:\rightarrow\:\frac{1}{1-\gamma}E<em>{s\sim\rho</em>{old}}[*]$<br>$A<em>{\pi</em>{old}}(s,a)\:\rightarrow\:Q<em>{\pi</em>{old}}(s,a)$</p>
+<p>$L_{\pi}(\pi_{new}) = \eta(\pi_{old})+\sum_{s}\rho_{\pi_{old}}(s)\sum_{a}\pi_{new}(a|s)A_{\pi_{old}}(s,a)$</p>
+<p>$\sum_{s}\rho_{\pi}(s)\:\rightarrow\:\frac{1}{1-\gamma}E_{s\sim\rho_{old}}[*]$<br>$A_{\pi_{old}}(s,a)\:\rightarrow\:Q_{\pi_{old}}(s,a)$</p>
 <p>Importance of sampling($q$ sampling distribution)</p>
-<p>$\sum<em>{a}\pi</em>{new}(a|s)A<em>{\pi</em>{old}}(s,a)\:\rightarrow\:E<em>{a\sim q}[\frac{\pi</em>{new}}{q}A<em>{\pi</em>{old}}(s,a)]$</p>
+<p>$\sum_{a}\pi_{new}(a|s)A_{\pi_{old}}(s,a)\:\rightarrow\:E_{a\sim q}[\frac{\pi_{new}}{q}A_{\pi_{old}}(s,a)]$</p>
 <script type="math/tex; mode=display">maximize_{\theta}\:E_{a\sim q,\,s\sim \rho_{old}}g[\frac{\pi_{new}}{q}Q_{\pi_{old}}(s,a)g]</script><script type="math/tex; mode=display">subject\:to\:D_{KL}^{\rho}(\theta||\theta_{old})\leq\delta</script><ul>
 <li><strong>Linear Approximation of Objective Function, Quadratic Approximation of Constraint</strong>  </li>
 </ul>
@@ -300,28 +300,28 @@
 <p>$ \nabla L^T \Delta\theta = {\sqrt{\frac{2\delta}{\nabla L^T A^{-1}\nabla L}}}{\nabla L^T A^{-1}\nabla L}$</p>
 <h4 id="Conjugate-Gradient-Method"><a href="#Conjugate-Gradient-Method" class="headerlink" title="Conjugate Gradient Method"></a>Conjugate Gradient Method</h4><p>This is iterative method to solve $Ax=b$ or $minimize_{x}\: \Phi(x)=\frac{1}{2}x^TAx-b^Tx$.<br>where, $A$ is positive definite.<br>In previous section, we need $A^{-1}\nabla L$ to calculate update law. However, it is comuputationally high to get inverse of hessian($A^{-1}$). Instead, we compute hessian vector product iteratively.<br>In this case $Ax=g$, where $g$ is gradient of objective function($\nabla L$)</p>
 <h5 id="Derivation-One-Minute-Derivation-of-The-Conjugate-Gradient-Algorithm"><a href="#Derivation-One-Minute-Derivation-of-The-Conjugate-Gradient-Algorithm" class="headerlink" title="Derivation(One-Minute Derivation of The Conjugate Gradient Algorithm)"></a>Derivation(<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1608.08691">One-Minute Derivation of The Conjugate Gradient Algorithm</a>)</h5><p>we want to solve for $Ax^＊=g$</p>
-<p>$x<em>{i+1}=x</em>{i}+\alpha_i d_i$</p>
-<p>$x<em>{i+1}-x^＊= x</em>{i}-x^＊+\alpha_i d_i$</p>
+<p>$x_{i+1}=x_{i}+\alpha_i d_i$</p>
+<p>$x_{i+1}-x^＊= x_{i}-x^＊+\alpha_i d_i$</p>
 <p>Let, $e_i=x_i-x^＊$</p>
-<p>$e<em>{i+1} = e</em>{i}+\alpha_i d_i$</p>
-<p>$Ae<em>{i+1} = Ae</em>{i}+\alpha_i Ad_i$</p>
+<p>$e_{i+1} = e_{i}+\alpha_i d_i$</p>
+<p>$Ae_{i+1} = Ae_{i}+\alpha_i Ad_i$</p>
 <p>Let, $r_i=g-Ax_i$</p>
-<p>$r<em>{i+1} = r</em>{i}-\alpha_i Ad_i$</p>
-<p>Let, we choose next residual perpendicular to previous one $r<em>{i+1}^Tr_i=r</em>{i}^Tr_{i+1}=0$.</p>
-<p>$r<em>{i}^Tr</em>{i+1} = r<em>{i}^Tr</em>{i}-\alpha<em>i\, r</em>{i}^TAd_i=0$</p>
+<p>$r_{i+1} = r_{i}-\alpha_i Ad_i$</p>
+<p>Let, we choose next residual perpendicular to previous one $r_{i+1}^Tr_i=r_{i}^Tr_{i+1}=0$.</p>
+<p>$r_{i}^Tr_{i+1} = r_{i}^Tr_{i}-\alpha_i\, r_{i}^TAd_i=0$</p>
 <script type="math/tex; mode=display">\alpha_i = \frac{r_{i}^Tr_{i}}{r_{i}^TAd_i}</script><p>We have to calculate $d_i$ iteratively.</p>
 <p>In fact, another approach to explain this part is A-conjugate or A-orthogonal. Vector $d_i$ is n-dimensional, which is basis of A. You can find Gram Schmidt Orthogonalization if you need more information. Briefly, we can build n orthogonal basis vectors from any vector $d_0$ if A is invertible(non-zero eigen values).</p>
 <script type="math/tex; mode=display">d_{i}^TAd_{i+1}=0</script><p>Let</p>
-<p>$d<em>{i+1} = r</em>{i+1} + \beta<em>{i+1}d</em>{i}$</p>
-<p>$d<em>{i}^TAd</em>{i+1} = d<em>{i}^TAr</em>{i+1} + \beta<em>{i+1}d</em>{i}^TAd_{i}$</p>
-<p>$0 = d<em>{i}^TAr</em>{i+1} + \beta<em>{i+1}d</em>{i}^TAd_{i}$</p>
-<script type="math/tex; mode=display">\beta_{i+1} = -\frac{d_{i}^TAr_{i+1}} {d_{i}^TAd_{i}}</script><p>$r<em>{i+1}^T = r</em>{i}^T-\alpha_id_i^T A\,\,\,$</p>
-<p>$r<em>{i+1}^Tr</em>{i+1} = r<em>{i}^Tr</em>{i+1}-\alpha<em>id_i^T Ar</em>{i+1}\,\,\,$</p>
-<p>$d<em>i^T Ar</em>{i+1}=-\frac{1}{\alpha<em>i}r</em>{i+1}^Tr_{i+1}\,\,\,$</p>
-<p>$d<em>{i} = r</em>{i} + \beta<em>{i}d</em>{i-1}$</p>
-<p>$Ad<em>{i} = Ar</em>{i} + \beta<em>{i}Ad</em>{i-1}$</p>
-<p>$d<em>{i}^TAd</em>{i} = d<em>{i}^TAr</em>{i} + \beta<em>{i}d</em>{i}^TAd_{i-1}$</p>
-<p>$d<em>{i}^TAd</em>{i} = d<em>{i}^TAr</em>{i}$</p>
+<p>$d_{i+1} = r_{i+1} + \beta_{i+1}d_{i}$</p>
+<p>$d_{i}^TAd_{i+1} = d_{i}^TAr_{i+1} + \beta_{i+1}d_{i}^TAd_{i}$</p>
+<p>$0 = d_{i}^TAr_{i+1} + \beta_{i+1}d_{i}^TAd_{i}$</p>
+<script type="math/tex; mode=display">\beta_{i+1} = -\frac{d_{i}^TAr_{i+1}} {d_{i}^TAd_{i}}</script><p>$r_{i+1}^T = r_{i}^T-\alpha_id_i^T A\,\,\,$</p>
+<p>$r_{i+1}^Tr_{i+1} = r_{i}^Tr_{i+1}-\alpha_id_i^T Ar_{i+1}\,\,\,$</p>
+<p>$d_i^T Ar_{i+1}=-\frac{1}{\alpha_i}r_{i+1}^Tr_{i+1}\,\,\,$</p>
+<p>$d_{i} = r_{i} + \beta_{i}d_{i-1}$</p>
+<p>$Ad_{i} = Ar_{i} + \beta_{i}Ad_{i-1}$</p>
+<p>$d_{i}^TAd_{i} = d_{i}^TAr_{i} + \beta_{i}d_{i}^TAd_{i-1}$</p>
+<p>$d_{i}^TAd_{i} = d_{i}^TAr_{i}$</p>
 <script type="math/tex; mode=display">\beta_{i+1} = -\frac{d_{i}^TAr_{i+1}}{d_{i}^TAd_{i}} = \frac{1}{\alpha_i}\frac{r_{i+1}^Tr_{i+1}}{d_{i}^TAd_{i}}= \frac{r_{i+1}^Tr_{i+1}}{r_{i}^Tr_{i}}</script><h5 id="Algorithm"><a href="#Algorithm" class="headerlink" title="Algorithm"></a>Algorithm</h5><ol>
 <li>Initial guess $x_0$  </li>
 <li>Set initial condition $d_0=r_0=b-Ax_0$  </li>
@@ -341,8 +341,8 @@
 <ol>
 <li>Get $KL(\pi,\pi_{old})$</li>
 <li>Use auto grad package to get $\nabla KL(\pi,\pi_{old})$</li>
-<li>Get $\nabla KL(\pi,\pi<em>{old})d</em>{i}$</li>
-<li>Again, use auto grad package to get  $\nabla(\nabla KL(\pi,\pi<em>{old})d</em>{i})$  </li>
+<li>Get $\nabla KL(\pi,\pi_{old})d_{i}$</li>
+<li>Again, use auto grad package to get  $\nabla(\nabla KL(\pi,\pi_{old})d_{i})$  </li>
 </ol>
 <p>Now, you get $Ad_i$ indirectly</p>
 <h5 id="Summarry"><a href="#Summarry" class="headerlink" title="Summarry"></a>Summarry</h5><ol>
