@@ -20,19 +20,17 @@
     var CONFIG = {"hostname":"donghyunsung-ms.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Sim.data qposIf you have free joint in MJCF, qpos[0] to qpos[6] contains xyz position, wxyz quaternion w.r.t world frame.Rest of values are joint angle(revolute) or position(prismatic) in order of xml">
+  <meta name="description" content="This post is based on Next theme in hexo. Create new post12hexo new &lt;layout&gt; title#ex) hexo new post tutorial1 Deploy and generate1hexo d -g Local server1hexo s">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mujoco-py Note(continue)">
+<meta property="og:title" content="How to use Hexo blog">
 <meta property="og:url" content="https://donghyunsung-ms.github.io/2020/07/02/mujoco-py-Note/index.html">
 <meta property="og:site_name" content="Welcome to Donghyun&#39;s Blog">
-<meta property="og:description" content="Sim.data qposIf you have free joint in MJCF, qpos[0] to qpos[6] contains xyz position, wxyz quaternion w.r.t world frame.Rest of values are joint angle(revolute) or position(prismatic) in order of xml">
+<meta property="og:description" content="This post is based on Next theme in hexo. Create new post12hexo new &lt;layout&gt; title#ex) hexo new post tutorial1 Deploy and generate1hexo d -g Local server1hexo s">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-07-02T08:55:04.000Z">
-<meta property="article:modified_time" content="2020-07-30T09:51:23.000Z">
+<meta property="article:modified_time" content="2021-09-19T09:11:05.946Z">
 <meta property="article:author" content="Donghyun Sung">
-<meta property="article:tag" content="RL">
-<meta property="article:tag" content="Do it">
-<meta property="article:tag" content="OpenAIGym">
+<meta property="article:tag" content="Tutorial">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://donghyunsung-ms.github.io/2020/07/02/mujoco-py-Note/">
@@ -48,7 +46,7 @@
   };
 </script>
 
-  <title>Mujoco-py Note(continue) | Welcome to Donghyun's Blog</title>
+  <title>How to use Hexo blog | Welcome to Donghyun's Blog</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171013578-1"></script>
     <script>
@@ -191,7 +189,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Mujoco-py Note(continue)
+          How to use Hexo blog
         </h1>
 
         <div class="post-meta">
@@ -208,7 +206,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-30 18:51:23" itemprop="dateModified" datetime="2020-07-30T18:51:23+09:00">2020-07-30</time>
+                <time title="Modified: 2021-09-19 18:11:05" itemprop="dateModified" datetime="2021-09-19T18:11:05+09:00">2021-09-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -231,10 +229,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="Sim-data"><a href="#Sim-data" class="headerlink" title="Sim.data"></a>Sim.data</h3><ul>
-<li>qpos<br>If you have free joint in MJCF, qpos[0] to qpos[6] contains xyz position, wxyz quaternion w.r.t world frame.<br>Rest of values are joint angle(revolute) or position(prismatic) in order of xml file(up to bottom).</li>
-<li>qvel<br>If you have free joint in MJCF, qpos[0] to qpos[5] contains xyz linear velocity, xyz angular velocity w.r.t world frame.<br>Rest of values are joint angular velocity(revolute) or linear velocity(prismatic) in order of xml file(up to bottom).</li>
-</ul>
+        <p>This post is based on Next theme in hexo.</p>
+<h3 id="Create-new-post"><a href="#Create-new-post" class="headerlink" title="Create new post"></a>Create new post</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo new &lt;layout&gt; title</span><br><span class="line">#ex) hexo new post tutorial1</span><br></pre></td></tr></table></figure>
+<h3 id="Deploy-and-generate"><a href="#Deploy-and-generate" class="headerlink" title="Deploy and generate"></a>Deploy and generate</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d -g</span><br></pre></td></tr></table></figure>
+<h3 id="Local-server"><a href="#Local-server" class="headerlink" title="Local server"></a>Local server</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo s</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -244,9 +242,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/RL/" rel="tag"># RL</a>
-              <a href="/tags/Do-it/" rel="tag"># Do it</a>
-              <a href="/tags/OpenAIGym/" rel="tag"># OpenAIGym</a>
+              <a href="/tags/Tutorial/" rel="tag"># Tutorial</a>
           </div>
 
         
@@ -321,7 +317,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sim-data"><span class="nav-number">1.</span> <span class="nav-text">Sim.data</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-new-post"><span class="nav-number">1.</span> <span class="nav-text">Create new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-and-generate"><span class="nav-number">2.</span> <span class="nav-text">Deploy and generate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Local-server"><span class="nav-number">3.</span> <span class="nav-text">Local server</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -350,7 +346,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
